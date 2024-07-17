@@ -22,52 +22,81 @@
   <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
   [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-## Description
+# Padrón Reducido SUNAT
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Este proyecto en NestJS descarga, descomprime e importa toda la data del padrón reducido de SUNAT, permitiendo la consulta o búsqueda de RUC o DNI.
 
-## Installation
+## Requisitos
 
-```bash
-$ npm install
-```
+- Node.js (>= 14.x)
+- Docker
+- MongoDB (opcional si se usa Docker para MongoDB)
 
-## Running the app
+## Instalación
 
-```bash
-# development
-$ npm run start
+1. Clona el repositorio (Si les pide un token me confirman y les paso):
 
-# watch mode
-$ npm run start:dev
+   ```bash
+   git clone https://github.com/jmpipah/veritify.git
+   cd padron-reducido-sunat
+   ```
 
-# production mode
-$ npm run start:prod
-```
+2. Instala las dependencias (solo si lo usaras localmente o tambien puedes usarlo en docker):
 
-## Test
+   ```bash
+   npm install
+   ```
 
-```bash
-# unit tests
-$ npm run test
+3. Configura las variables de entorno. Crea un archivo `.prod.env` en la raíz del proyecto y agrega las siguientes variables:
 
-# e2e tests
-$ npm run test:e2e
+   ```env
+    DB_CONNECTION=mongodb
+    DB_USERNAME=admin
+    DB_PASSWORD=AdminAdmin
+    HOST_NAME=127.0.0.1
+    DATABASE_NAME=veritify
+    DATABASE_PORT=27017
+    PARAMS=readPreference=primary&appname=MongoDB%20Compass&directConnection=true&ssl=false
+    PORT=5000
+    HOST=localhost
+   ```
 
-# test coverage
-$ npm run test:cov
-```
+## Uso con Docker
 
-## Support
+1. Asegúrate de que no tienes una instancia de MongoDB corriendo en el puerto `27017` en tu máquina local. Si tienes MongoDB instalado localmente, puedes detener el servicio o cambiar el puerto en el archivo `docker-compose.yml`.
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+2. Inicia los servicios con Docker Compose:
 
-## Stay in touch
+   ```bash
+   docker-compose up -d
+   ```
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+   Esto levantará tanto la aplicación NestJS como MongoDB. MongoDB estará disponible en el puerto `27017`.
 
-## License
+## Endpoints
 
-Nest is [MIT licensed](LICENSE).
+### Buscar por número (RUC o DNI)
+
+- **URL:** `/search/:number`
+- **Método:** `GET`
+- **Parámetros URL:**
+  - `number` (string): El número de RUC o DNI a buscar.
+- **Ejemplo de solicitud:**
+
+  ```bash
+  curl http://localhost:5000/search/10441054209
+  ```
+
+## Desarrollo
+
+Para contribuir a este proyecto:
+
+1. Haz un fork del repositorio.
+2. Crea una nueva rama (`git checkout -b feature-nueva-funcionalidad`).
+3. Realiza tus cambios y haz commit (`git commit -am 'Añadir nueva funcionalidad'`).
+4. Sube tus cambios (`git push origin feature-nueva-funcionalidad`).
+5. Abre un Pull Request.
+
+## Licencia
+
+Este proyecto está bajo la licencia MIT. Ver el archivo [LICENSE](LICENSE) para más detalles.

@@ -1,0 +1,22 @@
+# Directorio de dependencias de desarrollo
+node_modules/
+
+# Archivos de registro y respaldo
+*.log
+*.bak
+
+# Archivos de construcción
+/build
+/dist
+/coverage
+
+
+
+# Archivos específicos del editor
+.vscode/
+.idea/
+
+# Otros archivos específicos de la aplicación
+*.tmp
+*.zip
+*.txt

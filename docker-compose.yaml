@@ -10,15 +10,13 @@ services:
   ports:
    - "5000:5000"
   depends_on:
-   - mongo
-  command: ["/usr/src/veritify/w-f-m.sh", "mongo-veritify:27017", "npm", "run", "start:prod"]
- mongo:
+   - database
+
+ database:
   image: mongo:latest
-  restart: always
-  container_name: mongo-veritify
-  environment:
-   MONGO_INITDB_DATABASE: veritify
+  container_name: mongodb
   ports:
    - "27017:27017"
+  restart: always
   volumes:
    - /home/mongo-data/veritify:/data/db

@@ -55,4 +55,4 @@ RUN ls -l /usr/src/veritify
 EXPOSE 5000
 
 # Start the server using the production build, with a wait-for-it script
-CMD ["/usr/src/veritify/w-f-m.sh", "mongo-veritify:27017", "npm", "run", "start:prod"]
+CMD ["npm", "run", "start:prod"]

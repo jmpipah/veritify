@@ -17,7 +17,7 @@ export class AppService {
 	@Cron("0 0 2 * * *") //Ejecutara el servicio todos los dias a las 2:00 a.m.
 	async downloadFile(): Promise<void> {
 		const url = "http://www2.sunat.gob.pe/padron_reducido_ruc.zip";
-		const downloadFolder = "./assets/downloads"; // Asegúrate de que esta carpeta exista o crea la carpeta en tu código
+		const downloadFolder = path.join(__dirname, "..", "assets", "downloads"); // Ruta absoluta al directorio downloads
 
 		try {
 			const response = await axios.get(url, {

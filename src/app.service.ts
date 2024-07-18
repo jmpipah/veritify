@@ -74,8 +74,6 @@ export class AppService {
 
 		const fileStream = fs.createReadStream(filePath);
 
-		const oldDocuments = await this.customerModel.countDocuments();
-
 		const rl = readline.createInterface({
 			input: fileStream,
 			crlfDelay: Infinity,
@@ -163,6 +161,9 @@ export class AppService {
 		if (!customer) {
 			throw new NotFoundException(`Customer with value ${number} not found`);
 		}
+
+		customer.name = this.normalizeString(customer.name);
+
 		if (number.length > 8) {
 			return customer;
 		} else {
@@ -184,5 +185,15 @@ export class AppService {
 				throw err;
 			}
 		}
+	}
+
+	private normalizeString(str: string): string {
+		// Normaliza la cadena y elimina los caracteres diacríticos
+		str = str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
+		// Reemplaza caracteres especiales adicionales
+		str = str.replace(/�/g, "Ñ"); // Ejemplo para reemplazar carácter incorrecto con "Ñ"
+
+		return str;
 	}
 }

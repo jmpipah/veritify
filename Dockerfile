@@ -42,9 +42,6 @@ COPY --from=deps /usr/src/veritify/node_modules ./node_modules
 # Copy built files from build stage
 COPY --from=build /usr/src/veritify/dist ./dist
 
-# Copy wait-for-it script
-COPY w-f-m.sh /usr/src/veritify/
-
 # Ensure the /usr/src/veritify directory exists
 RUN mkdir -p /usr/src/veritify
 

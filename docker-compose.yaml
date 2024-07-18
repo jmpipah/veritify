@@ -16,8 +16,6 @@ services:
   image: mongo:latest
   container_name: mongo-veritify
   environment:
-   MONGO_INITDB_ROOT_USERNAME: root
-   MONGO_INITDB_ROOT_PASSWORD: rootpassword
    MONGO_INITDB_DATABASE: veritify
    MONGO_INITDB_USERNAME: admin
    MONGO_INITDB_PASSWORD: AdminAdminAdmin

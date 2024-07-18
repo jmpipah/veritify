@@ -3,8 +3,8 @@ services:
   build:
    context: ./
    dockerfile: Dockerfile
-  image: image-verifity # Especifica el nombre de la imagen
-  container_name: container-veritify # Especifica el nombre del contenedor
+  image: i-verifity # Especifica el nombre de la imagen
+  container_name: c-veritify # Especifica el nombre del contenedor
   env_file:
    - .prod.env
   ports:

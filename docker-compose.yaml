@@ -16,7 +16,7 @@ services:
   image: mongo:latest
   container_name: mongodb
   ports:
-   - "27017:27017"
+   - "27018:27017"
   restart: always
   volumes:
    - /home/mongo-data/veritify:/data/db

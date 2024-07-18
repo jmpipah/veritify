@@ -17,14 +17,9 @@ services:
   restart: always
   container_name: mongo-veritify
   environment:
-   MONGO_INITDB_ROOT_USERNAME: root
-   MONGO_INITDB_ROOT_PASSWORD: root
    MONGO_INITDB_DATABASE: veritify
-   MONGO_INITDB_USERNAME: admin
-   MONGO_INITDB_PASSWORD: AdminAdminAdmin
   ports:
    - "27017:27017"
   volumes:
    - ./mongo-data:/data/db
    - ./mongo-data/log:/var/log/mongodb/
-

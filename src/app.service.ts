@@ -157,8 +157,7 @@ export class AppService {
 	}
 
 	async findCustomerByNumber(number: string): Promise<any> {
-		const filter = number.length > 8 ? { ruc: number } : { ruc: { $regex: number, $options: "i" } };
-
+		const filter = number.length > 8 ? { ruc: number } : { ruc: new RegExp(`^10${number}\\d$`) };
 		const customer = await this.customerModel.findOne(filter).exec();
 
 		if (!customer) {

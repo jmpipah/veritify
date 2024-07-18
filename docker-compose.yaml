@@ -14,22 +14,17 @@ services:
 
  mongo:
   image: mongo:latest
+  restart: always
   container_name: mongo-veritify
   environment:
+   MONGO_INITDB_ROOT_USERNAME: root
+   MONGO_INITDB_ROOT_PASSWORD: root
    MONGO_INITDB_DATABASE: veritify
    MONGO_INITDB_USERNAME: admin
    MONGO_INITDB_PASSWORD: AdminAdminAdmin
   ports:
-   - "27018:27017"
+   - "27017:27017"
   volumes:
-   - mongo-data:/data/db
-  command: >
-   bash -c '
-   mongod --auth --bind_ip_all --fork --logpath /var/log/mongodb.log &&
-   mongo admin --eval "db.createUser({ user: '\''admin'\'', pwd: '\''AdminAdmin'\'', roles: [{ role: '\''readWrite'\'', db: '\''veritify'\'' }] })" &&
-   mongod --shutdown &&
-   mongod --auth --bind_ip_all
-   '
+   - ./mongo-data:/data/db
+   - ./mongo-data/log:/var/log/mongodb/
 
-volumes:
- mongo-data:

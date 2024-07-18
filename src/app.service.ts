@@ -17,9 +17,11 @@ export class AppService {
 	@Cron("0 0 2 * * *") //Ejecutara el servicio todos los dias a las 2:00 a.m.
 	async downloadFile(): Promise<void> {
 		const url = "http://www2.sunat.gob.pe/padron_reducido_ruc.zip";
-		const downloadFolder = "./assets/downloads"; // Asegúrate de que esta carpeta exista o crea la carpeta en tu código
+		const downloadFolder = path.join(__dirname, "assets", "downloads");
 
 		try {
+			await this.ensureDirectoryExists(downloadFolder);
+
 			const response = await axios.get(url, {
 				responseType: "stream",
 			});
@@ -165,6 +167,19 @@ export class AppService {
 				dni: number,
 				name: customer.name,
 			};
+		}
+	}
+
+	private async ensureDirectoryExists(directory: string): Promise<void> {
+		try {
+			await fs.promises.access(directory, fs.constants.F_OK);
+		} catch (err) {
+			if (err.code === "ENOENT") {
+				await fs.promises.mkdir(directory, { recursive: true });
+				console.log(`Directorio creado: ${directory}`);
+			} else {
+				throw err;
+			}
 		}
 	}
 }

@@ -22,9 +22,6 @@ RUN npm ci
 
 COPY . .
 
-# Copia la carpeta assets a la imagen Docker
-COPY ./assets ./dist/assets
-
 # Run the build command which creates the production bundle
 RUN npm run build
 

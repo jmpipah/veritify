@@ -42,6 +42,9 @@ COPY --from=deps /usr/src/veritify/node_modules ./node_modules
 # Copy built files from build stage
 COPY --from=build /usr/src/veritify/dist ./dist
 
+# Copy wait-for-it script
+COPY w-f-m.sh /usr/src/veritify/
+
 # Ensure the /usr/src/veritify directory exists
 RUN mkdir -p /usr/src/veritify
 
@@ -51,5 +54,5 @@ RUN ls -l /usr/src/veritify
 # Setting port
 EXPOSE 5000
 
-# Start the server using the production build
-CMD ["npm", "run", "start:prod"]
+# Start the server using the production build, with a wait-for-it script
+CMD ["/usr/src/veritify/w-f-m.sh", "mongo-veritify:27017", "npm", "run", "start:prod"]

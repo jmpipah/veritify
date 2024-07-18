@@ -41,8 +41,9 @@ export class AppService {
 	@Cron("0 0 3 * * *") //Ejecutara el servicio todos los dias a las 3:00 a.m.
 	async extractZip(): Promise<string> {
 		try {
-			const zipFilePath = "./assets/downloads/padron_reducido_ruc.zip";
-			const extractFolder = `./assets/downloads`;
+			const zipFilePath = path.join(__dirname, "..", "assets", "downloads", "padron_reducido_ruc.zip");
+			const extractFolder = path.join(__dirname, "..", "assets", "downloads");
+
 			// Verificamos si el archivo existe
 			if (!fs.existsSync(zipFilePath)) {
 				throw new NotFoundException(`El archivo no existe`);
@@ -64,7 +65,7 @@ export class AppService {
 
 	@Cron("0 0 4 * * *") //Ejecutara el servicio todos los dias a las 4:00 a.m.
 	async importFromFile(): Promise<void> {
-		const filePath = "./assets/downloads/padron_reducido_ruc.txt";
+		const filePath = path.join(__dirname, "..", "assets", "downloads", "padron_reducido_ruc.txt");
 
 		const fileStream = fs.createReadStream(filePath);
 

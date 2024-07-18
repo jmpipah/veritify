@@ -17,7 +17,7 @@ export class AppService {
 	@Cron("0 0 2 * * *") //Ejecutara el servicio todos los dias a las 2:00 a.m.
 	async downloadFile(): Promise<void> {
 		const url = "http://www2.sunat.gob.pe/padron_reducido_ruc.zip";
-		const downloadFolder = path.join(__dirname, "..", "assets", "downloads"); // Ruta absoluta al directorio downloads
+		const downloadFolder = "./assets/downloads"; // Asegúrate de que esta carpeta exista o crea la carpeta en tu código
 
 		try {
 			const response = await axios.get(url, {
@@ -41,9 +41,8 @@ export class AppService {
 	@Cron("0 0 3 * * *") //Ejecutara el servicio todos los dias a las 3:00 a.m.
 	async extractZip(): Promise<string> {
 		try {
-			const zipFilePath = path.join(__dirname, "..", "assets", "downloads", "padron_reducido_ruc.zip");
-			const extractFolder = path.join(__dirname, "..", "assets", "downloads");
-
+			const zipFilePath = "./assets/downloads/padron_reducido_ruc.zip";
+			const extractFolder = `./assets/downloads`;
 			// Verificamos si el archivo existe
 			if (!fs.existsSync(zipFilePath)) {
 				throw new NotFoundException(`El archivo no existe`);
@@ -65,7 +64,7 @@ export class AppService {
 
 	@Cron("0 0 4 * * *") //Ejecutara el servicio todos los dias a las 4:00 a.m.
 	async importFromFile(): Promise<void> {
-		const filePath = path.join(__dirname, "..", "assets", "downloads", "padron_reducido_ruc.txt");
+		const filePath = "./assets/downloads/padron_reducido_ruc.txt";
 
 		const fileStream = fs.createReadStream(filePath);
 

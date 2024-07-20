@@ -72,7 +72,7 @@ export class AppService {
 			throw new NotFoundException(`El archivo no existe`);
 		}
 
-		const fileStream = fs.createReadStream(filePath);
+		const fileStream = fs.createReadStream(filePath, { encoding: "latin1" });
 
 		const rl = readline.createInterface({
 			input: fileStream,
@@ -113,21 +113,21 @@ export class AppService {
 				updateOne: {
 					filter: { ruc },
 					update: {
-						ruc,
-						name,
-						state,
-						condition,
-						locate,
-						typeStreet,
-						nameStreet,
-						zoneCode,
-						zoneType,
-						number,
-						inside,
-						lote,
-						department,
-						appleStreet,
-						km,
+						ruc: ruc,
+						name: name,
+						state: state,
+						condition: condition,
+						locate: locate,
+						typeStreet: typeStreet,
+						nameStreet: nameStreet,
+						zoneCode: zoneCode,
+						zoneType: zoneType,
+						number: number,
+						inside: inside,
+						lote: lote,
+						department: department,
+						appleStreet: appleStreet,
+						km: km,
 					},
 					upsert: true,
 				},
@@ -162,8 +162,6 @@ export class AppService {
 			throw new NotFoundException(`Customer with value ${number} not found`);
 		}
 
-		customer.name = this.normalizeString(customer.name);
-
 		if (number.length > 8) {
 			return customer;
 		} else {
@@ -187,13 +185,80 @@ export class AppService {
 		}
 	}
 
-	private normalizeString(str: string): string {
-		// Normaliza la cadena y elimina los caracteres diacríticos
-		str = str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+	private replaceSpecialChars(str: string): string {
+		const replace = [
+			{
+				Š: "S",
+				š: "s",
+				Ž: "Z",
+				ž: "z",
+				À: "A",
+				Á: "A",
+				Â: "A",
+				Ã: "A",
+				Ä: "A",
+				Å: "A",
+				Æ: "A",
+				Ç: "C",
+				È: "E",
+				É: "E",
+				Ê: "E",
+				Ë: "E",
+				Ì: "I",
+				Í: "I",
+				Î: "I",
+				Ï: "I",
+				Ñ: "N",
+				Ò: "O",
+				Ó: "O",
+				Ô: "O",
+				Õ: "O",
+				Ö: "O",
+				Ø: "O",
+				Ù: "U",
+				Ú: "U",
+				Û: "U",
+				Ü: "U",
+				Ý: "Y",
+				Þ: "B",
+				ß: "Ss",
+				à: "a",
+				á: "a",
+				â: "a",
+				ã: "a",
+				ä: "a",
+				å: "a",
+				æ: "a",
+				ç: "c",
+				è: "e",
+				é: "e",
+				ê: "e",
+				ë: "e",
+				ì: "i",
+				í: "i",
+				î: "i",
+				ï: "i",
+				ð: "o",
+				ñ: "n",
+				ò: "o",
+				ó: "o",
+				ô: "o",
+				õ: "o",
+				ö: "o",
+				ø: "o",
+				ù: "u",
+				ú: "u",
+				û: "u",
+				ý: "y",
+				þ: "b",
+				ÿ: "y",
+			},
+		];
 
 		// Reemplaza caracteres especiales adicionales
-		str = str.replace(/�/g, "Ñ"); // Ejemplo para reemplazar carácter incorrecto con "Ñ"
-
+		str = str.replace(/Š/g, "S");
+		str = str.replace(/ñ/g, "n");
+		str = str.replace(/Ñ/g, "N");
 		return str;
 	}
 }
